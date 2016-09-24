@@ -27,6 +27,7 @@
     "port": 8018
   },
   "scripts": {
+    "compile": "babel ./src --out-dir ./lib",
     "build": "rc-tools run build",
     "gh-pages": "rc-tools run gh-pages",
     "start": "rc-tools run server",
@@ -39,6 +40,9 @@
     "coverage": "rc-tools run coverage"
   },
   "devDependencies": {
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-react": "^6.11.1",
+    "babel-preset-stage-0": "^6.5.0",
     "css-animation": "^1.2.0",
     "es6-promise": "^3.1.2",
     "expect.js": "~0.3.1",

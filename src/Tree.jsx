@@ -497,6 +497,16 @@ class Tree extends React.Component {
 
   render() {
     const props = this.props;
+    const findTreeNodes = (child) => {
+      if (child.type.name === 'TreeNode') {
+        return child;
+      } else {
+        if (child.props.children && child.props.children.length > 0) {
+          return findTreeNodes(child.props.children[0])
+        }
+      }
+    };
+    const children = React.Children.map(props.children, findTreeNodes);
     const domProps = {
       className: classNames(props.className, props.prefixCls),
       role: 'tree-node',
@@ -509,7 +519,7 @@ class Tree extends React.Component {
     if (props.checkable && (this.checkedKeysChange || props.loadData)) {
       if (props.checkStrictly) {
         this.treeNodesStates = {};
-        loopAllChildren(props.children, (item, index, pos, keyOrPos, siblingPosition) => {
+        loopAllChildren(children, (item, index, pos, keyOrPos, siblingPosition) => {
           this.treeNodesStates[pos] = {
             siblingPosition,
           };
@@ -528,7 +538,7 @@ class Tree extends React.Component {
         } else {
           const checkedPositions = [];
           this.treeNodesStates = {};
-          loopAllChildren(props.children, (item, index, pos, keyOrPos, siblingPosition) => {
+          loopAllChildren(children, (item, index, pos, keyOrPos, siblingPosition) => {
             this.treeNodesStates[pos] = {
               node: item,
               key: keyOrPos,
@@ -552,7 +562,7 @@ class Tree extends React.Component {
 
     return (
       <ul {...domProps} unselectable ref="tree">
-        {React.Children.map(props.children, this.renderTreeNode, this)}
+        {React.Children.map(children, this.renderTreeNode, this)}
       </ul>
     );
   }
